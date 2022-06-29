@@ -10,12 +10,6 @@ exports.createOrder = async (req, res, next) => {
                 ProductId: req.body.ProductId,
             },
         ])
-        // Order.createOrderList({
-        //     start_date: new Date(),
-        //     end_date: new Date(),
-        //     status: 'Pending',
-        // })
-
         res.status(200).send({ data: dataOrder, message: 'insert success' })
     } catch (error) {
         res.status(500).send({ data: [], message: 'Insert failed', error: error.toString() })

@@ -22,7 +22,6 @@ exports.getOrderList = async (req, res, next) => {
     }
 
     try {
-        console.log('asdasd,', value)
         let _query = await OrderList.findAll({ include: { model: Order, include: [Product] }, ...value })
         const status = 200
         res.status(200).send({ data: _query, status })

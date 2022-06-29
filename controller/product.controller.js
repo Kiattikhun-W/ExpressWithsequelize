@@ -1,33 +1,32 @@
 const Product = require("../models/product");
 
 exports.getProducts = async (req, res, next) => {
-    let where = {}
-    let offset = {}
-    let limit = null
+    let value = {
+        where: {}
+    }
     let page = +req.query.page || 1
     if (req.query.gender) {
-        where.gender = req.query.gender
+        value.where.gender = req.query.gender
     }
     if (req.query.category) {
-        where.category = req.query.category
+        value.where.category = req.query.category
     }
     if (req.query.size) {
-        where.size = req.query.size
+        value.where.size = req.query.size
     }
     if (req.query.limit) {
-        limit = +req.query.limit
-        offset['offset'] = limit * (page - 1)
+        value.limit = +req.query.limit
+        value.offset = +value.limit * (page - 1)
     }
-    console.log({ where, limit, ...offset })
-    console.log(offset)
+
     try {
-        let _query = await Product.findAll({ where, ...offset, limit })
+        let _query = await Product.findAll(value)
         const status = 200
         res.status(200).send({ data: _query, status })
 
 
     } catch (error) {
-        res.status(500).send({ data: [], message: 'Get Product failed', error })
+        next(error)
 
     }
 };
